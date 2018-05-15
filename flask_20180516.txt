@@ -1,0 +1,102 @@
+1、基本概念
+Django -- 完善完整高集成的框架
+flask -- '微'框架 (pip install flask),保持核心简单而易于扩展
+    丰富的第三方库 自身不含数据库抽象层微框架，database,templates需要自己去组装
+
+2、安装
+a.创建虚拟环境
+    1）virtualenv --no-site-packages flaskenv
+    2) cd flaskenv
+    3) cd Script
+b.启动虚拟环境
+    activate 
+c.安装flask
+    pip install flask
+
+3、运行flask
+python xxx.py --> 启动默认127.0.0.1:5000
+    
+
+4、运行(run)参数
+debug = True  -- 调试
+port = '8000'-- 端口
+host = '0.0.0.0' -- IP
+
+
+5、修改启动方式 
+pip install flask-script
+python hello.py runserver [,-h 0.0.0.0 -- IP] [,-p 8000 -- 端口][,-d -- debug模式] [-r -- 重载、重启]
+
+6、配置debug
+   方法同Django，不过需将manage.py换成应用的名称，如:hello.app
+   所跟参数前要增加标识，如: -h 0.0.0.0 -d -p 8000
+
+7、蓝图(用于管理url,规划url)
+pip install flask-blueprint
+a)初始化蓝图
+b)路由注册
+
+8、route规则
+Django
+    \(\d+)\
+    \<?P(\d+)>\
+flask
+    <converter:name>  -- 类型:名称  int float string
+    <name> -- 不写类型  默认为字符串(string)类型
+    int -- 整型
+    float -- 浮点型
+    path -- 路径('/'也是当做字符串返回)
+    uuid -- 订单编号  不重复
+
+9、request请求
+args -- GET请求，获取参数   ex:request.args.get('name')
+form -- POST请求，获取参数  ex:request.form.get('age')
+files -- 上传的file文件
+method -- 请求方式
+
+10、url_prefix='hello' -- 蓝图前缀，用于区分不同的蓝图
+
+11、response响应
+服务器自己创建，然后返回给客户端
+传入自己定义的状态码
+response = make_response('<h2>haha</h2>')
+response.set_cookie('ticket',ticket)
+return response,220
+
+12、session
+安装: pip install flask-session
+      pip install redis
+使用数据库:
+      SESSION_TYPE类型
+          redis
+          mongodb
+          memcached
+          sqlchemy
+
+13、cookie:同Django set_cookie delete_cookie
+
+14、跳转
+@bp.route('/redirect/') # 跳转方法
+def make_redirect():
+    # 第一种方法
+    # return redirect('hello/index/')
+    # 第二种方法
+    # first:蓝图名 indexing:蓝图下的方法 indexing已经和地址绑定在一起
+    return redirect(url_for('first.indexing'))  
+
+
+15、抛出、捕捉异常
+@bp.route('/makeabort/')
+def make_abort():
+    abort(404) # 抛出404异常
+    return '终结'
+
+@bp.errorhandler(404)  # 捕捉指定异常
+def get_error(exception):
+    return '捕捉异常: %s' % exception
+
+base_url -- BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+path -- templates_dir = os.path.join(BASE_DIR,'templates')
+        static_dir = os.path.join(BASE_DIR,'static')
+
+

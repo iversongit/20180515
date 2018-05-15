@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}
+    登录页面
+{% endblock %}
+{% block content %}
+欢迎 {{ username }}
+<form action="" method="post">
+    name:<input type="text" name="username" placeholder="请输入用户名">
+    <input type="submit" value="提交">
+</form>
+{% endblock %}
